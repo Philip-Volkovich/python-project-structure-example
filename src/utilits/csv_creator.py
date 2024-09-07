@@ -7,7 +7,7 @@ from collections import Counter
 class CsvCreator:
     def __init__(self, path=None):
         self.default_path = path or os.getcwd()
-        self.csv_output = 'csv_output'
+        self.csv_output = 'src/csv_output'
         self.output_dir = os.path.join(self.default_path, self.csv_output)
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
