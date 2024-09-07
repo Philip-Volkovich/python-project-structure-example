@@ -1,0 +1,21 @@
+{
+    "operations": [
+        {
+            "operation_type": "currency_conversion",
+            "from_currency": "USD",
+            "to_currency": "EUR",
+            "exchange_rate": 1.17,
+            "city": "Paris"
+        },
+        {
+            "operation_type": "news",
+            "input_text": "Upcoming Music Festival in San Francisco",
+            "city": "San Francisco"
+        },
+        {
+            "operation_type": "private advertisement",
+            "input_text": "Selling a ClaSSic Car Chevrolet Impala",
+            "expir_date": "2023-12-15"
+        }
+    ]
+}

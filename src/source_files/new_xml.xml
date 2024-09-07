@@ -1,0 +1,19 @@
+<data>
+  <transaction>
+    <operation_type>currency_conversion</operation_type>
+    <from_currency>USD</from_currency>
+    <to_currency>GBP</to_currency>
+    <exchange_rate>1.25</exchange_rate>
+    <city>London</city>
+  </transaction>
+  <transaction>
+    <operation_type>news</operation_type>
+    <input_text>Upcoming Concert in Minsk</input_text>
+    <city>Minsk</city>
+  </transaction>
+  <transaction>
+    <operation_type>private advertisement</operation_type>
+    <input_text>Selling a Vintage Car</input_text>
+    <expir_date>2023-12-15</expir_date>
+  </transaction>
+</data>
