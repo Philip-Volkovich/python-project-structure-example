@@ -40,31 +40,31 @@ class XmlParser:
                 operation_type = transaction.find('operation_type').text
                 if operation_type == 'news':
                     news_feed = NewsFeed('news')
-                    news_feed.record = News(convert_to_normalized_case(transaction.find('input_text').text),
+                    news_feed = News(convert_to_normalized_case(transaction.find('input_text').text),
                                             convert_to_normalized_case(transaction.find('city').text))
                     news_feed.add_publication()
                     found_valid_transaction = True
                     db_record = DBConnection('new_db')
                     db_record.db_create('news', db_record.columns_news)
                     db_record.db_insert('news', "input_text, city, date",
-                                        f"""'{news_feed.record.input_text}',
-                                        '{news_feed.record.city}',
-                                        '{news_feed.record.date}'""")
+                                        f"""'{news_feed.input_text}',
+                                        '{news_feed.city}',
+                                        '{news_feed.date}'""")
                 elif operation_type == 'private advertisement':
                     news_feed = NewsFeed('private advertisement')
-                    news_feed.record = PrivateAd(convert_to_normalized_case(transaction.find('input_text').text),
+                    news_feed = PrivateAd(convert_to_normalized_case(transaction.find('input_text').text),
                                                  (transaction.find('expir_date').text))
                     news_feed.add_publication()
                     found_valid_transaction = True
                     db_record = DBConnection('new_db')
                     db_record.db_create('private_ad', db_record.columns_private_ad)
                     db_record.db_insert('private_ad', "input_text, expir_date, days_left",
-                                        f"""'{news_feed.record.input_text}',
-                                        '{news_feed.record.expir_date}',
-                                        '{news_feed.record.days_left}'""")
+                                        f"""'{news_feed.input_text}',
+                                        '{news_feed.expir_date}',
+                                        '{news_feed.days_left}'""")
                 elif operation_type == 'currency_conversion':
                     news_feed = NewsFeed('currency_conversion')
-                    news_feed.record = CurrencyConversion(convert_to_normalized_case(transaction.find('from_currency').text),
+                    news_feed = CurrencyConversion(convert_to_normalized_case(transaction.find('from_currency').text),
                                                           convert_to_normalized_case(transaction.find('to_currency').text),
                                                           transaction.find('exchange_rate').text,
                                                           convert_to_normalized_case(transaction.find('city').text))
@@ -73,11 +73,11 @@ class XmlParser:
                     db_record = DBConnection('new_db')
                     db_record.db_create('currency_conv', db_record.columns_currency_conv)
                     db_record.db_insert('currency_conv', "currency_from, currency_to, rate, city, date",
-                                        f"""'{news_feed.record.currency_from}',
-                                         '{news_feed.record.currency_to}',
-                                         '{news_feed.record.rate}',
-                                         '{news_feed.record.city}',
-                                         '{news_feed.record.date}'""")
+                                        f"""'{news_feed.currency_from}',
+                                         '{news_feed.currency_to}',
+                                         '{news_feed.rate}',
+                                         '{news_feed.city}',
+                                         '{news_feed.date}'""")
                 else:
                     print(f'Invalid record: {operation_type}. Please check the file.')
                     found_invalid_transaction = True

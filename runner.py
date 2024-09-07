@@ -1,6 +1,5 @@
 import sys
 import os
-from src.feed_class.news_feed_parent import NewsFeed
 from src.feed_class.news import News
 from src.feed_class.currency_conv import CurrencyConversion
 from src.feed_class.private_ad import PrivateAd
@@ -14,7 +13,7 @@ from src.utilits.db_connection import DBConnection
 class AppRunner:
 
     def __init__(self):
-        self.source_files = 'source_files'
+        self.source_files = 'src/source_files'
 
     def console_runner(self):
         """Run the console-based news feed application."""
@@ -40,31 +39,29 @@ class AppRunner:
                     if choice == '1':
                         input_text = input('Enter the news text: ')
                         city = input('Enter the news city: ')
-                        news_feed = NewsFeed('news')
-                        news_feed.record = News(input_text, city)
+                        news_feed = News(input_text, city)
                         news_feed.add_publication()
                         db_record = DBConnection('new_db')
                         db_record.db_create('news',db_record.columns_news)
                         db_record.db_insert('news',"input_text, city, date",
-                                            f"""'{news_feed.record.input_text}',
-                                            '{news_feed.record.city}',
-                                            '{news_feed.record.date}'""")
-                        csv_creator = CsvCreator(sys.path[0])
+                                            f"""'{news_feed.input_text}',
+                                            '{news_feed.city}',
+                                            '{news_feed.date}'""")
+                        csv_creator = CsvCreator(os.getcwd())
                         csv_creator.word_counter()
                         csv_creator.letter_count()
                     elif choice == '2':
                         input_text = input('Enter the private advertisement text: ')
                         expir_date = input('Enter expiration date (YYYY-MM-DD): ')
-                        news_feed = NewsFeed('private advertisement')
-                        news_feed.record = PrivateAd(input_text, expir_date)
+                        news_feed = PrivateAd(input_text, expir_date)
                         news_feed.add_publication()
                         db_record = DBConnection('new_db')
                         db_record.db_create('private_ad',db_record.columns_private_ad)
                         db_record.db_insert('private_ad',"input_text, expir_date, days_left",
-                                            f"""'{news_feed.record.input_text}',
-                                            '{news_feed.record.expir_date}',
-                                            '{news_feed.record.days_left}'""")
-                        csv_creator = CsvCreator(sys.path[0])
+                                            f"""'{news_feed.input_text}',
+                                            '{news_feed.expir_date}',
+                                            '{news_feed.days_left}'""")
+                        csv_creator = CsvCreator(os.getcwd())
                         csv_creator.word_counter()
                         csv_creator.letter_count()
                     elif choice == '3':
@@ -72,18 +69,17 @@ class AppRunner:
                         currency_to = input('Enter TO which currency you want to convert (3 capital letters, e.g., USD): ')
                         rate = float(input('Enter currency exchange rate (integer or decimal): '))
                         city = input('Enter city for currency exchange rate: ')
-                        news_feed = NewsFeed('currency conversion rate')
-                        news_feed.record = CurrencyConversion(currency_from, currency_to, rate, city)
+                        news_feed = CurrencyConversion(currency_from, currency_to, rate, city)
                         news_feed.add_publication()
                         db_record = DBConnection('new_db')
                         db_record.db_create('currency_conv',db_record.columns_currency_conv)
                         db_record.db_insert('currency_conv',"currency_from, currency_to, rate, city, date",
-                                            f"""'{news_feed.record.currency_from}',
-                                            '{news_feed.record.currency_to}',
-                                            '{news_feed.record.rate}',
-                                            '{news_feed.record.city}',
-                                            '{news_feed.record.date}'""")
-                        csv_creator = CsvCreator(sys.path[0])
+                                            f"""'{news_feed.currency_from}',
+                                            '{news_feed.currency_to}',
+                                            '{news_feed.rate}',
+                                            '{news_feed.city}',
+                                            '{news_feed.date}'""")
+                        csv_creator = CsvCreator(os.getcwd())
                         csv_creator.word_counter()
                         csv_creator.letter_count()
                     elif choice == '4':
@@ -97,7 +93,7 @@ class AppRunner:
                                   (press Enter for default path):''').strip()
 
                 if not file_path:
-                    file_path = os.path.join(sys.path[0], self.source_files)
+                    file_path = os.path.join(os.getcwd(), self.source_files)
 
                 full_file_path = os.path.join(file_path, file_name)
 
@@ -105,7 +101,7 @@ class AppRunner:
                     text_parser = TextParser(file_name)
                     text_parser.parse_from_text(file_path)
                     text_parser.line_parser()
-                    csv_creator = CsvCreator(sys.path[0])
+                    csv_creator = CsvCreator(os.getcwd())
                     csv_creator.word_counter()
                     csv_creator.letter_count()
                 else:
@@ -118,7 +114,7 @@ class AppRunner:
                                   (press Enter for default path):''').strip()
 
                 if not file_path:
-                    file_path = os.path.join(sys.path[0], self.source_files)
+                    file_path = os.path.join(os.getcwd(), self.source_files)
 
                 full_file_path = os.path.join(file_path, file_name)
 
@@ -126,7 +122,7 @@ class AppRunner:
                     json_parser = JsonParser(file_name)
                     json_parser.load_from_json(file_path)
                     json_parser.parse_from_json()
-                    csv_creator = CsvCreator(sys.path[0])
+                    csv_creator = CsvCreator(os.getcwd())
                     csv_creator.word_counter()
                     csv_creator.letter_count()
                 else:
@@ -139,7 +135,7 @@ class AppRunner:
                                   (press Enter for default path):''').strip()
 
                 if not file_path:
-                    file_path = os.path.join(sys.path[0], self.source_files)
+                    file_path = os.path.join(os.getcwd(), self.source_files)
 
                 full_file_path = os.path.join(file_path, file_name)
 
@@ -147,7 +143,7 @@ class AppRunner:
                     xml_parser = XmlParser(file_name)
                     xml_parser.load_from_xml(file_path)
                     xml_parser.parse_from_xml()
-                    csv_creator = CsvCreator(sys.path[0])
+                    csv_creator = CsvCreator(os.getcwd())
                     csv_creator.word_counter()
                     csv_creator.letter_count()
                 else:
